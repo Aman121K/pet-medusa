@@ -37,7 +37,10 @@ async function getRegionMap(cacheId: string) {
     })
 
     if (!response.ok) {
-      throw new Error(`Backend returned ${response.status}`)
+      console.error(
+        `Middleware.ts: Failed to fetch regions (${response.status}). Check NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY, region setup, and backend URL.`
+      )
+      return new Map<string, HttpTypes.StoreRegion>()
     }
 
     const json = await response.json()
@@ -113,6 +116,10 @@ export async function middleware(request: NextRequest) {
 
   // if the country code is available, use it, otherwise use the default region
   const country = countryCode || DEFAULT_REGION
+
+  if (!country) {
+    return NextResponse.next()
+  }
   const firstPathSegment = request.nextUrl.pathname.split("/")[1]?.toLowerCase()
   const urlHasCountry = firstPathSegment === country.toLowerCase()
 

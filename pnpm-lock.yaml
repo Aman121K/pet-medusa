@@ -12,6 +12,9 @@ importers:
 
   .:
     devDependencies:
+      pnpm:
+        specifier: 10.11.1
+        version: 10.11.1
       prettier:
         specifier: ^3.2.5
         version: 3.7.4
@@ -7242,6 +7245,11 @@ packages:
   pluralize@8.0.0:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
     engines: {node: '>=4'}
+
+  pnpm@10.11.1:
+    resolution: {integrity: sha512-5Rm592OYadyNXDxd/vc7PwkQlLCgBtcxc1PHKxJOgOGv1ClzLihwWta/oe6HnB/ORsEozOvTGSEB9D3WfGZ5Eg==}
+    engines: {node: '>=18.12'}
+    hasBin: true
 
   pony-cause@2.1.11:
     resolution: {integrity: sha512-M7LhCsdNbNgiLYiP4WjsfLUuFmCfnjdF6jKe2R9NKl4WFN+HZPGHJZ9lnLP7f9ZnKe3U9nuWD0szirmj+migUg==}
@@ -17729,6 +17737,8 @@ snapshots:
       find-up: 4.1.0
 
   pluralize@8.0.0: {}
+
+  pnpm@10.11.1: {}
 
   pony-cause@2.1.11: {}
 

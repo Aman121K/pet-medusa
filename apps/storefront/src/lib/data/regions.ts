@@ -9,13 +9,18 @@ export const listRegions = async () => {
     ...(await getCacheOptions("regions")),
   }
 
-  return await sdk.client
-    .fetch<{ regions: HttpTypes.StoreRegion[] }>(`/store/regions`, {
-      method: "GET",
-      next,
-      cache: "force-cache",
-    })
-    .then(({ regions }) => regions)
+  try {
+    return await sdk.client
+      .fetch<{ regions: HttpTypes.StoreRegion[] }>(`/store/regions`, {
+        method: "GET",
+        next,
+        cache: "force-cache",
+      })
+      .then(({ regions }) => regions)
+  } catch (e) {
+    console.error("listRegions: unable to fetch regions from backend", e)
+    return []
+  }
 }
 
 export const retrieveRegion = async (id: string) => {

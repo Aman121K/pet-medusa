@@ -39,6 +39,8 @@ yarn-error.log*
 **/.env.test.local
 **/.env.production.local
 apps/backend/static/blogs.json
+apps/backend/static/banners.json
+apps/backend/static/pages.json
 
 # Turbo
 .turbo

@@ -1,6 +1,8 @@
 import type { MedusaRequest, MedusaResponse } from "@medusajs/framework/http"
 import { getPublishedBlogBySlug } from "../../../_shared/blog-store"
 
+export const AUTHENTICATE = false
+
 export async function GET(req: MedusaRequest, res: MedusaResponse) {
   const blog = getPublishedBlogBySlug(req.params.slug)
 

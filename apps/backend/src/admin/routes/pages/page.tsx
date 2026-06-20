@@ -12,12 +12,24 @@ type PageFaq = {
   answer: string
 }
 
+type PageSeo = {
+  title: string
+  description: string
+  keywords: string
+  canonical_url: string
+  og_title: string
+  og_description: string
+  og_image_url: string
+  robots: string
+}
+
 type ManagedPage = {
   key: string
   title: string
   intro: string
   sections: PageSection[]
   faqs: PageFaq[]
+  seo: PageSeo
   is_published: boolean
 }
 
@@ -27,6 +39,7 @@ type PageForm = {
   intro: string
   sectionsText: string
   faqsText: string
+  seoText: string
   is_published: boolean
 }
 
@@ -36,6 +49,20 @@ const emptyForm: PageForm = {
   intro: "",
   sectionsText: "[]",
   faqsText: "[]",
+  seoText: JSON.stringify(
+    {
+      title: "",
+      description: "",
+      keywords: "",
+      canonical_url: "",
+      og_title: "",
+      og_description: "",
+      og_image_url: "",
+      robots: "index,follow",
+    },
+    null,
+    2
+  ),
   is_published: true,
 }
 
@@ -49,6 +76,16 @@ const parseJsonArray = <T,>(value: string, field: string): T[] => {
 
   if (!Array.isArray(parsed)) {
     throw new Error(`${field} must be a JSON array`)
+  }
+
+  return parsed
+}
+
+const parseJsonObject = <T,>(value: string, field: string): T => {
+  const parsed = JSON.parse(value || "{}")
+
+  if (!parsed || Array.isArray(parsed) || typeof parsed !== "object") {
+    throw new Error(`${field} must be a JSON object`)
   }
 
   return parsed
@@ -93,6 +130,7 @@ const PagesPage = () => {
       intro: page.intro,
       sectionsText: JSON.stringify(page.sections || [], null, 2),
       faqsText: JSON.stringify(page.faqs || [], null, 2),
+      seoText: JSON.stringify(page.seo || {}, null, 2),
       is_published: page.is_published,
     })
     setMessage("")
@@ -116,6 +154,7 @@ const PagesPage = () => {
         intro: form.intro,
         sections: parseJsonArray<PageSection>(form.sectionsText, "Sections"),
         faqs: parseJsonArray<PageFaq>(form.faqsText, "FAQs"),
+        seo: parseJsonObject<PageSeo>(form.seoText, "SEO"),
         is_published: form.is_published,
       }
 
@@ -222,6 +261,17 @@ const PagesPage = () => {
                   className={`${inputClass} min-h-[80px]`}
                   value={form.intro}
                   onChange={(e) => setForm((current) => ({ ...current, intro: e.target.value }))}
+                />
+              </label>
+
+              <label className="md:col-span-2">
+                <span className={labelClass}>SEO JSON</span>
+                <textarea
+                  className={`${inputClass} min-h-[220px] font-mono`}
+                  value={form.seoText}
+                  onChange={(e) =>
+                    setForm((current) => ({ ...current, seoText: e.target.value }))
+                  }
                 />
               </label>
 
